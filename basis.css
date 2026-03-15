@@ -1,0 +1,314 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body,
+main {
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Cursive', 'Comic Sans MS', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+main {
+    position: fixed;
+    background: #CDC5BF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cakeContainer {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.cake {
+    width: 200px;
+    height: 120px;
+    background: #f39c12;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.cakeTop {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 30px;
+    background: #e74c3c;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+}
+
+.candle {
+    position: absolute;
+    bottom: 100%;
+    width: 10px;
+    height: 30px;
+    background: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.flame {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 10px;
+    background: orange;
+    border-radius: 50%;
+    animation: flicker 0.5s infinite alternate;
+}
+
+.cakeHint {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #2e2e2e;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.cakeHint:hover {
+    color: #e67e22;
+    /* Farbe beim Hover ändern */
+}
+
+@keyframes flicker {
+    0% {
+        transform: translateX(-50%) scaleY(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-50%) scaleY(1.3);
+        opacity: 0.8;
+    }
+}
+
+/* Szene */
+.sceneOne {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    perspective: 600px;
+    /* 3D-Perspektive für Geschenk */
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+/* Ballons */
+.balloon {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 60px;
+    border-radius: 50% 50% 50% 50%;
+    background: pink;
+    animation-timing-function: ease-out;
+    pointer-events: none;
+    /* Ballons sollen nicht klickbar sein */
+    z-index: 5;
+    transform: translateX(0);
+}
+
+/* Überschrift */
+.headingSO {
+    font-size: 2.25rem;
+    margin-bottom: 3vh;
+    color: #2e2e2e;
+}
+
+/* Progressbar */
+.progressBarCon {
+    width: 80vw;
+    height: 2.5vh;
+    background: #121212;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 2vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.progressBar {
+    width: 0;
+    height: 100%;
+    border-radius: 15px;
+    background: linear-gradient(180deg, #335979, #4694d6);
+    transition: width 0.5s ease;
+}
+
+/* Konfetti */
+.confetti {
+    position: absolute;
+    /* wichtig! */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    /* klickbar nicht blockieren */
+    z-index: 1000;
+    /* über allem anderen */
+}
+
+/* Geschenk */
+.gift {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 3vh 0;
+}
+
+/* Vertikales und horizontales Band */
+.ribbon {
+    position: absolute;
+    background: #f1c40f;
+    /* goldfarbenes Band */
+}
+
+.ribbon.vertical {
+    width: 20px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sceneOne,
+.gift {
+    outline: none;
+    /* entfernt den blauen Fokusrahmen */
+    -webkit-tap-highlight-color: transparent;
+    /* für mobile Geräte */
+    user-select: none;
+    /* verhindert blauen Texthighlight beim Tippen */
+}
+
+.ribbon.horizontal {
+    width: 100%;
+    height: 20px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+/* Schleife oben */
+.bow {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Die zwei Schleifenflügel */
+.bow::before,
+.bow::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: #f1c40f;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.bow::before {
+    left: -10px;
+    transform: rotate(-30deg);
+}
+
+.bow::after {
+    right: -10px;
+    transform: rotate(30deg);
+}
+
+/* Geschenk-Box */
+.box {
+    width: 100%;
+    height: 100%;
+    background: #e74c3c;
+    /* leicht dunkleres Rot für Kontrast */
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Geschenk-Deckel */
+.lid {
+    width: 100%;
+    height: 30px;
+    background: #ff6666;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top center;
+    transition: transform 0.6s ease-in-out;
+    z-index: 2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Öffnen des Geschenks */
+.gift.open .lid {
+    transform: rotateX(-120deg);
+}
+
+.textKastenCon {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.textKasten {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.textTag {
+    opacity: 0;
+    display: inline-block;
+    font-size: 2rem;
+    margin: 0 1.5vw;
+    font-style: oblique;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.textTag.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
