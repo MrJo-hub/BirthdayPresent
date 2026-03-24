@@ -281,7 +281,7 @@ function sceneTwo() {
     document.body.appendChild(sceneTwo);
 
     // Ballons starten
-    launchBalloons(50, () => {
+    launchBalloons(20, () => {
         // Wenn alle Ballons weg sind, Konfetti fallen lassen
         rainConfetti(20, () => {
             // Nach dem Konfetti: HAPPY BIRTHDAY + Kuchen
