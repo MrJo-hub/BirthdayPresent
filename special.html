@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grand Prix de Birthday 🏎️✨</title>
+    <style>
+        :root {
+            --soft-blue: #e3f2fd;
+            --sunny-yellow: #5a5a59;
+            --grass-green: #2e2e2e;
+            --pink-accent: #c40e2c;
+        }
+
+        body {
+            background-color: var(--soft-blue);
+            color: #333;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            touch-action: manipulation;
+        }
+
+        .main-stage { 
+            text-align: center; 
+            width: 90%; 
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        #gift-box {
+            font-size: clamp(80px, 25vw, 120px);
+            cursor: pointer;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            transition: transform 0.2s;
+        }
+
+        /* F1 Startampel */
+        #light-bridge {
+            display: none;
+            background: #222;
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border: 4px solid #444;
+            justify-content: space-around;
+        }
+
+        .light-unit {
+            width: clamp(25px, 7vw, 35px);
+            height: clamp(25px, 7vw, 35px);
+            background-color: #111;
+            border-radius: 50%;
+            border: 2px solid #333;
+        }
+
+        .light-unit.active-red {
+            background-color: #ff0000;
+            box-shadow: 0 0 25px #ff0000;
+        }
+
+        /* Rennstrecke */
+        #race-track {
+            display: none;
+            height: 60vh; 
+            width: 100%;
+            background: #fff;
+            border-left: 6px solid var(--grass-green);
+            border-right: 6px solid var(--grass-green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .finish-line {
+            position: absolute;
+            top: 50px; /* Position der Linie */
+            width: 100%;
+            height: 25px;
+            background-image: linear-gradient(45deg, #333 25%, transparent 25%), 
+                              linear-gradient(-45deg, #333 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #333 75%),
+                              linear-gradient(-45deg, transparent 75%, #333 75%);
+            background-size: 15px 15px;
+            background-color: #eee;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .racer {
+            position: absolute;
+            bottom: -80px; /* Starten unterhalb des Sichtfelds */
+            font-size: clamp(40px, 11vw, 55px);
+            transition: bottom linear; /* Konstante Geschwindigkeit */
+        }
+
+        /* Victory Screen */
+        #victory {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .win-title {
+            font-size: clamp(1.8rem, 8vw, 2.5rem);
+            color: var(--pink-accent);
+            margin: 0;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 25px; height: 35px;
+            border-radius: 50%;
+            animation: floatUp 4s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-120vh) rotate(15deg); opacity: 0; }
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="balloon-container"></div>
+
+    <div class="main-stage">
+        <div id="phase1">
+            <div id="gift-box" onclick="prepareRace()">🎁</div>
+            <h2 style="color: var(--pink-accent); font-weight: normal; margin-top: 15px;">Tippe zum Starten!</h2>
+        </div>
+
+        <div id="light-bridge">
+            <div class="light-unit" id="l1"></div>
+            <div class="light-unit" id="l2"></div>
+            <div class="light-unit" id="l3"></div>
+            <div class="light-unit" id="l4"></div>
+            <div class="light-unit" id="l5"></div>
+        </div>
+
+        <div id="race-track">
+            <div class="finish-line"></div>
+            <div id="car-red" class="racer" style="left: 5%;">🐌</div>
+            <div id="car-blue" class="racer" style="left: 29%; filter: hue-rotate(200deg);">🏎️</div>
+            <div id="car-green" class="racer" style="left: 53%; filter: hue-rotate(90deg);">🏎️</div>
+            <div id="car-yellow" class="racer" style="left: 77%; filter: hue-rotate(45deg);">🏎️</div>
+        </div>
+
+        <div id="victory">
+            <h1 class="win-title">HAPPY BIRTHDAY 🙃</h1>
+            <div style="font-size: 80px; margin: 15px;">🎂</div>
+            <h2 style="color: #555; margin-bottom: 10px;">Alles Gute</h2>
+            <p style="color: #666; line-height: 1.5; padding: 0 10px;">Ich wünsche dir einen ganz tollen Geburtstag und ein Lebensjahr voller Glück und Freude</p>
+        </div>
+    </div>
+
+    <script>
+        function prepareRace() {
+            document.getElementById('phase1').classList.add('hidden');
+            const bridge = document.getElementById('light-bridge');
+            bridge.style.display = 'flex';
+
+            // Ampel-Lichter an
+            for (let i = 1; i <= 5; i++) {
+                setTimeout(() => {
+                    document.getElementById('l' + i).classList.add('active-red');
+                }, i * 700);
+            }
+
+            // Lights Out
+            setTimeout(() => {
+                document.querySelectorAll('.light-unit').forEach(l => l.classList.remove('active-red'));
+                startRace();
+            }, 4500);
+        }
+
+        function startRace() {
+            document.getElementById('light-bridge').style.display = 'none';
+            const track = document.getElementById('race-track');
+            track.style.display = 'block';
+
+            const carRed = document.getElementById('car-red');
+            const carBlue = document.getElementById('car-blue');
+            const carGreen = document.getElementById('car-green');
+            const carYellow = document.getElementById('car-yellow');
+
+            // Zielhöhe: Über die Ziellinie hinaus (oben aus dem Track raus)
+            const finishPos = track.offsetHeight + 100;
+
+            setTimeout(() => {
+                // Das Rote Auto ist deutlich am schnellsten (4 Sek)
+                carRed.style.transitionDuration = '4s';
+                carRed.style.bottom = finishPos + 'px';
+
+                // Die anderen Autos sind langsamer (5.5 bis 6.5 Sek)
+                carBlue.style.transitionDuration = '5.8s';
+                carBlue.style.bottom = finishPos + 'px';
+
+                carGreen.style.transitionDuration = '6.2s';
+                carGreen.style.bottom = finishPos + 'px';
+
+                carYellow.style.transitionDuration = '5.5s';
+                carYellow.style.bottom = finishPos + 'px';
+            }, 100);
+
+            // Wenn das rote Auto durch ist und der Rest noch fährt -> Sieg einblenden
+            setTimeout(() => {
+                track.style.display = 'none';
+                const victory = document.getElementById('victory');
+                victory.style.display = 'block';
+                setTimeout(() => victory.style.opacity = '1', 50);
+                
+                setInterval(createBalloon, 200);
+            }, 5500);
+        }
+
+        function createBalloon() {
+            const b = document.createElement('div');
+            b.className = 'balloon';
+            b.style.left = Math.random() * 100 + '%';
+            const colors = ['#ff8a80', '#ff80ab', '#b388ff', '#80d8ff', '#ccff90', '#ffff8d'];
+            b.style.background = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById('balloon-container').appendChild(b);
+            setTimeout(() => b.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
